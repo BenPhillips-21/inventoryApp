@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h2 #{maptype.name}
+  br
+  p  #{maptype.description}
+
+  hr
+  p
+    a(href=maptype.url+'/delete') Delete maptype
+  p
+    a(href=maptype.url+'/update') Update maptype

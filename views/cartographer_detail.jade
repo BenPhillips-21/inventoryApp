@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h2 #{title}
+  br
+  | #{cartographer.DOB} - #{cartographer.DOD}
+  br
+  img(src=cartographer.portrait style='width: 300px; border: 3px solid black;')
+  p #{cartographer.description}
+  p #[strong Nationality: ]
+  p  #{cartographer.nationality}
+
+  hr
+  p
+    a(href=cartographer.url+'/delete') Delete cartographer
+  p
+    a(href=cartographer.url+'/update') Update cartographer

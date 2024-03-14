@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h2 #{map.title}
+
+  img(src=map.image style='width: 800px; border: 3px solid black;')
+  p #{map.description}
+  p #[strong Cartographer: ]
+    a(href=map.cartographer.url) #{map.cartographer.name}
+  p #[strong Year Published: ]
+    a #{map.year_published}
+    each val, index in map.maptype
+      p #[strong Map Type: ]
+      a(href=val.url) #{val.name}
+      if index < map.maptype.length - 1
+        |,&nbsp;
+
+  hr
+  p
+    a(href=map.url+'/delete') Delete map
+  p
+    a(href=map.url+'/update') Update map

@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST')
+    div.form-group
+      label(for='title') Title:
+      input#title.form-control(type='text', placeholder='Name of map', name='title', required, value=(undefined === map ? '' : map.title))
+    div.form-group
+      label(for='cartographer') Cartographer:
+      select#cartographer.form-control(name='cartographer', required)
+        option(value='') --Please select a Cartographer--
+        each cartographer in cartographers
+          if map && cartographer._id.toString() === map.cartographer._id.toString()
+            option(value=cartographer._id, selected) #{cartographer.name}
+          else
+            option(value=cartographer._id) #{cartographer.name}
+    div.form-group
+      label(for='image') Link to Map Image:
+      textarea#image.form-control(type='text', placeholder='https://i.imgur.com/JeZhlFq.jpeg', name='image', required)= undefined === map ? '' : map.image
+    div.form-group
+      label(for='description') Description:
+      textarea#description.form-control(placeholder='Description of map', name='description', required)= undefined === map ? '' : map.description
+    div.form-group
+      label(for='year_published') Year Published:
+      input#year_published.form-control(type='text', placeholder='1777', name='year_published', value=(undefined === map ? '' : map.year_published), required)
+    div.form-group
+      label Map Type:
+      div
+        each type in maptypes
+          div(style='display: inline; padding-right:10px;')
+            if type.checked
+              input.checkbox-input(type='checkbox', name='maptype', id=type._id, value=type._id, checked)
+            else
+              input.checkbox-input(type='checkbox', name='maptype', id=type._id, value=type._id)
+            label(for=type._id) &nbsp;#{type.name}
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      each error in errors
+        li= error.msg

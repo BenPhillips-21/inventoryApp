@@ -5,14 +5,26 @@ const asyncHandler = require("express-async-handler");
 exports.maptype_list = asyncHandler(async (req, res, next) => {
     const allMapTypes = await MapType.find().sort({ name: 1 }).exec();
     res.render("maptype_list", {
-      title: "Cartographer List",
+      title: "Map Type List",
       maptype_list: allMapTypes,
     });
 });
 
 // Display detail page for a specific maptype.
 exports.maptype_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: maptype detail: ${req.params.id}`);
+    const [maptype] = await Promise.all([
+    MapType.findById(req.params.id).exec(),
+  ]);
+
+  if (maptype === null) {
+    const err = new Error("Map type not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("maptype_detail", {
+    maptype: maptype,
+  });
 });
 
 // Display maptype create form on GET.
