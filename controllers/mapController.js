@@ -1,13 +1,35 @@
 const Map = require("../models/map");
+const MapType = require ("../models/maptype");
+const Cartographer = require("../models/cartographer");
 const asyncHandler = require("express-async-handler");
 
 // Display list of all maps.
 exports.index = asyncHandler(async (req, res, next) => {
-  res.render("index")
+    const [
+    numMaps,
+    numCartographers,
+    numMapTypes,
+  ] = await Promise.all([
+    Map.countDocuments({}).exec(),
+    Cartographer.countDocuments({}).exec(),
+    MapType.countDocuments({}).exec(),
+  ]);
+
+  res.render("index", {
+    title: "Map World",
+    map_count: numMaps,
+    cartographer_count: numCartographers,
+    maptype_count: numMapTypes,
+  });
 })
 
 exports.map_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: map list");
+  const allMaps = await Map.find({}, "title image cartographer")
+    .sort({ title: 1 })
+    .populate("cartographer")
+    .exec();
+
+    res.render("map_list", { title: "Map List", map_list: allMaps})
 });
 
 // Display detail page for a specific map.

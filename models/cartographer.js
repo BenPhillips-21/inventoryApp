@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { DateTime } = require("luxon");
 
 const Schema = mongoose.Schema
 
@@ -16,7 +17,7 @@ const CartographerSchema = new Schema ({
 CartographerSchema.virtual("name").get(function () {
   let fullname = "";
   if (this.first_name && this.family_name) {
-    fullname = `${this.family_name}, ${this.first_name}`;
+    fullname = `${this.first_name} ${this.family_name}`;
   }
 
   return fullname;

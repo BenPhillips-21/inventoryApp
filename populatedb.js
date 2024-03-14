@@ -41,14 +41,17 @@ async function maptypeCreate(index, name, description) {
 }
 
 async function cartographerCreate(index, first_name, family_name, portrait, nationality, description, date_of_birth, date_of_death) {
+  let DOB = new Date(date_of_birth)
+  let DOD = new Date(date_of_death)
+
   const cartographerdetail = 
   { first_name: first_name, 
     family_name: family_name,
     portrait: portrait,
     nationality: nationality,
     description: description,
-    date_of_birth: date_of_birth,
-    date_of_death: date_of_death
+    date_of_birth: DOB,
+    date_of_death: DOD
   };
 
   const cartographer = new Cartographer(cartographerdetail);
@@ -99,25 +102,25 @@ async function createMaps() {
   await Promise.all([
     mapCreate(0,
       "General chart of Terra Australis",
-      "Chart of Australia completed after Flinders' circumnavigation of the island from 1802-1803.",
-      1814,
       "https://www.sl.nsw.gov.au/sites/default/files/a082001h.jpg",
+      1814,
+      "Chart of Australia completed after Flinders' circumnavigation of the island from 1802-1803.",
       cartographers[0],
       [maptypes[0]]
     ),
     mapCreate(1,
       "The Freycinet Map",
-      "The Freycinet Map of 1811 is the first map of Australia to be published which shows the full outline of Australia.[1] It was drawn by Louis de Freycinet and was an outcome of the Baudin expedition to Australia. It preceded the publication of Matthew Flinders' map of Australia, Terra Australis or Australia, by three years.",
-      1811,
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/1811_Freycinet_Map.jpg/1280px-1811_Freycinet_Map.jpg",
+      1811,
+      "The Freycinet Map of 1811 is the first map of Australia to be published which shows the full outline of Australia.[1] It was drawn by Louis de Freycinet and was an outcome of the Baudin expedition to Australia. It preceded the publication of Matthew Flinders' map of Australia, Terra Australis or Australia, by three years.",
       cartographers[1],
       [maptypes[0]]
     ),
     mapCreate(2,
       "Carte Reduite des Terres Australes (Reduced Map of the Southern Lands)",
-      "One of the very few pre-Cook maps showing only Australia. Drawn in the French cartographic tradition known as theoretical geography... the east coast of Australia is shown as an imaginary line running from Terre de Diemen to Nouvelle Guinee and including Espiritu Santo",
-      1753,
       "https://www.classicalimages.com/cdn/shop/products/82079-1.jpg?v=1689919360",
+      1753,
+      "One of the very few pre-Cook maps showing only Australia. Drawn in the French cartographic tradition known as theoretical geography... the east coast of Australia is shown as an imaginary line running from Terre de Diemen to Nouvelle Guinee and including Espiritu Santo",
       cartographers[2],
       [maptypes[3]]
     ),

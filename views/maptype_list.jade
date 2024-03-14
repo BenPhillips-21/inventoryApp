@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+
+  if maptype_list.length
+    ul
+      each maptype in maptype_list
+        li
+          a(href=maptype.url) #{maptype.name}
+          br
+          | #{maptype.description} 
+
+  else
+    p There are no map types.

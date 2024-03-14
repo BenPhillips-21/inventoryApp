@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+
+  if cartographer_list.length
+    ul
+      each cartographer in cartographer_list
+        li
+          a(href=cartographer.url) #{cartographer.name}
+          br
+          | #{cartographer.DOB} -
+          | #{cartographer.DOD}
+
+  else
+    p There are no cartographers.
+

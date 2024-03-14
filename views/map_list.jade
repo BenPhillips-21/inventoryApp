@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  if map_list.length
+    ul
+      each map in map_list
+        li
+          a(href=map.url) #{map.title}
+          br
+          img(src=map.image style='width: 550px; border: 3px solid black;')
+          br
+          |  #{map.cartographer.name}
+
+  else
+    p There are no maps :/

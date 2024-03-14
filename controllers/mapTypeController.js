@@ -3,7 +3,11 @@ const asyncHandler = require("express-async-handler");
 
 // Display list of all maptypes.
 exports.maptype_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: maptype list");
+    const allMapTypes = await MapType.find().sort({ name: 1 }).exec();
+    res.render("maptype_list", {
+      title: "Cartographer List",
+      maptype_list: allMapTypes,
+    });
 });
 
 // Display detail page for a specific maptype.

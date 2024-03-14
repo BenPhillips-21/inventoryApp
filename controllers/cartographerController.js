@@ -3,7 +3,11 @@ const asyncHandler = require("express-async-handler");
 
 // Display list of all cartographers.
 exports.cartographer_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: cartographer list");
+  const allCartographers = await Cartographer.find().sort({ family_name: 1 }).exec();
+    res.render("cartographer_list", {
+      title: "Cartographer List",
+      cartographer_list: allCartographers,
+    });
 });
 
 // Display detail page for a specific cartographer.
