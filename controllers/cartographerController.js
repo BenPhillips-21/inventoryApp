@@ -31,7 +31,12 @@ exports.cartographer_detail = asyncHandler(async (req, res, next) => {
 });
 
 // Display cartographer create form on GET.
-exports.cartographer_create_get = [
+exports.cartographer_create_get = (req, res, next) => {
+  res.render("cartographer_form", { title: "Create Cartographer" });
+};
+
+// Handle cartographer create on POST.
+exports.cartographer_create_post = [
   body("first_name")
     .trim()
     .isLength({ min: 1 })
@@ -46,6 +51,17 @@ exports.cartographer_create_get = [
     .withMessage("Family name must be specified.")
     .isAlphanumeric()
     .withMessage("Family name has non-alphanumeric characters."),
+  body("portrait")
+    .trim()
+    .isLength({ min: 1 }),
+  body("nationality")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description")
+    .trim()
+    .isLength({ min: 15 })
+    .escape(),
   body("date_of_birth", "Invalid date of birth")
     .optional({ values: "falsy" })
     .isISO8601()
@@ -60,33 +76,29 @@ exports.cartographer_create_get = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create Author object with escaped and trimmed data
-    const author = new Author({
+    let cartographer = new Cartographer({
       first_name: req.body.first_name,
       family_name: req.body.family_name,
+      portrait: req.body.portrait,
+      nationality: req.body.nationality,
+      description: req.body.description,
       date_of_birth: req.body.date_of_birth,
       date_of_death: req.body.date_of_death,
     });
 
     if (!errors.isEmpty()) {
-      // There are errors. Render form again with sanitized values/errors messages.
-      res.render("author_form", {
-        title: "Create Author",
-        author: author,
+      res.render("cartographer_form", {
+        title: "Create Cartographer",
+        cartographer: cartographer,
         errors: errors.array(),
       });
       return;
     } else {
-      await author.save();
-      res.redirect(author.url);
+      await cartographer.save();
+      res.redirect(cartographer.url);
     }
   }),
 ];
-
-// Handle cartographer create on POST.
-exports.cartographer_create_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: cartographer create POST");
-});
 
 // Display cartographer delete form on GET.
 exports.cartographer_delete_get = asyncHandler(async (req, res, next) => {
