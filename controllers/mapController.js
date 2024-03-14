@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 
 // Display list of all maps.
 exports.index = asyncHandler(async (req, res, next) => {
-  res.send("Index not implemented")
+  res.render("index")
 })
 
 exports.map_list = asyncHandler(async (req, res, next) => {
