@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 #{title}: #{map.title}
+  p= map.description
+  img(src=map.image, style='width: 450px; height: auto;') 
+
+  p Do you really want to delete this map?
+
+  form(method='POST')
+    div.form-group
+      input#mapid.form-control(type='hidden', name='mapid', value=map._id )
+
+    button.btn.btn-primary(type='submit') Delete

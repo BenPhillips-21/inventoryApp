@@ -102,12 +102,32 @@ exports.cartographer_create_post = [
 
 // Display cartographer delete form on GET.
 exports.cartographer_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: cartographer delete GET");
+  const [cartographer] = await Promise.all([
+    Cartographer.findById(req.params.id).exec(),
+  ]);
+
+  if (cartographer === null) {
+    res.redirect("/catalog/cartographers");
+  }
+
+  res.render("cartographer_delete", {
+    title: "Delete cartographer",
+    cartographer: cartographer,
+  });
 });
 
 // Handle cartographer delete on POST.
 exports.cartographer_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: cartographer delete POST");
+  const [cartographer] = await Promise.all([
+    Cartographer.findById(req.params.id).exec(),
+  ]);
+
+  if (cartographer === null) {
+    res.redirect("/catalog/cartographers");
+  }
+
+    await Cartographer.findByIdAndDelete(req.body.cartographerid);
+    res.redirect("/catalog/cartographers");
 });
 
 // Display cartographer update form on GET.

@@ -68,12 +68,32 @@ exports.maptype_create_post = [
 
 // Display maptype delete form on GET.
 exports.maptype_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: maptype delete GET");
+  const [maptype] = await Promise.all([
+    MapType.findById(req.params.id).exec(),
+  ]);
+
+  if (maptype === null) {
+    res.redirect("/catalog/maptypes");
+  }
+
+  res.render("maptype_delete", {
+    title: "Delete maptype",
+    maptype: maptype,
+  });
 });
 
 // Handle maptype delete on POST.
 exports.maptype_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: maptype delete POST");
+  const [maptype] = await Promise.all([
+    MapType.findById(req.params.id).exec(),
+  ]);
+
+  if (maptype === null) {
+    res.redirect("/catalog/maptypes");
+  }
+
+    await MapType.findByIdAndDelete(req.body.maptypeid);
+    res.redirect("/catalog/maptypes");
 });
 
 // Display maptype update form on GET.

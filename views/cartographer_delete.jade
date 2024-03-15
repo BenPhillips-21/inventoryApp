@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 #{title}: #{cartographer.name}
+  p= cartographer.description
+  img(src=cartographer.portrait, style='width: 300px; height: auto;') 
+
+  p Do you really want to delete this cartographer?
+
+  form(method='POST')
+    div.form-group
+      input#cartographerid.form-control(type='hidden', name='cartographerid', value=cartographer._id )
+
+    button.btn.btn-primary(type='submit') Delete

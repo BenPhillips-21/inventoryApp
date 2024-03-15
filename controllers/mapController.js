@@ -136,12 +136,33 @@ exports.map_create_post = [
 
 // Display map delete form on GET.
 exports.map_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: map delete GET");
+  const [map] = await Promise.all([
+    Map.findById(req.params.id).exec(),
+  ]);
+
+  if (map === null) {
+    res.redirect("/catalog/maps");
+  }
+
+  res.render("map_delete", {
+    title: "Delete map",
+    map: map,
+  });
 });
+
 
 // Handle map delete on POST.
 exports.map_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: map delete POST");
+  const [map] = await Promise.all([
+    Map.findById(req.params.id).exec(),
+  ]);
+
+  if (map === null) {
+    res.redirect("/catalog/maps");
+  }
+
+    await Map.findByIdAndDelete(req.body.mapid);
+    res.redirect("/catalog/maps");
 });
 
 // Display map update form on GET.
