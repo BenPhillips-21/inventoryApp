@@ -35,4 +35,16 @@ CartographerSchema.virtual("DOD").get(function () {
     return DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED);
 });
 
+CartographerSchema.virtual("formattedDOB").get(function () {
+  const luxonDate = DateTime.fromJSDate(this.date_of_birth);
+  const formattedDate = luxonDate.toFormat('yyyy-MM-dd');
+  return formattedDate;
+});
+
+CartographerSchema.virtual("formattedDOD").get(function () {
+  const luxonDate = DateTime.fromJSDate(this.date_of_death);
+  const formattedDate = luxonDate.toFormat('yyyy-MM-dd');
+  return formattedDate;
+});
+
 module.exports = mongoose.model("Cartographer", CartographerSchema);

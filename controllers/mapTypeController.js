@@ -98,10 +98,54 @@ exports.maptype_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display maptype update form on GET.
 exports.maptype_update_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: maptype update GET");
+  const [maptype] = await Promise.all([
+    MapType.findById(req.params.id).exec(),
+  ]);
+
+  if (maptype === null) {
+    const err = new Error("maptype not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("maptype_form", {
+    title: "Update Map Type",
+    maptype: maptype,
+  });
 });
 
 // Handle maptype update on POST.
-exports.maptype_update_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: maptype update POST");
-});
+exports.maptype_update_post = [
+  body("name", "Map type name must contain at least 3 characters")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body("description", "Map description must be specified")
+    .trim()
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    let maptype = {
+      name: req.body.name,
+      description: req.body.description
+    }
+
+    if (!errors.isEmpty()) {
+      res.render("maptype_form", {
+        title: "Update Map Type",
+        maptype: maptype,
+        errors: errors.array(),
+      });
+      return;
+    }
+      const updatedMaptype = await MapType.findByIdAndUpdate(
+        req.params.id, maptype, {}
+      );
+
+      // Redirect to the updated map type's URL
+      res.redirect(updatedMaptype.url);
+  })
+];
+

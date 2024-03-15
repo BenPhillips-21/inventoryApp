@@ -15,11 +15,10 @@ block content
       input#nationality.form-control(type='text', placeholder="'Spanish', 'German', 'Russian'..." name='nationality' required value=(undefined===cartographer ? '' : cartographer.nationality))
       label(for='description') Description:
       input#description.form-control(type='text', placeholder='Enter description of the cartographer' name='description' required value=(undefined===cartographer ? '' : cartographer.description))
-    div.form-group
       label(for='date_of_birth') Date of birth:
-      input#date_of_birth.form-control(type='date' name='date_of_birth' value=(undefined===cartographer ? '' : cartographer.date_of_birth) )
+      input#formattedDOB.form-control(type='date', name='formattedDOB', value=(undefined === cartographer ? '' : cartographer.formattedDOB))
       label(for='date_of_death') Date of death:
-      input#date_of_death.form-control(type='date' name='date_of_death' value=(undefined===cartographer ? '' : cartographer.date_of_death) )
+      input#formattedDOD.form-control(type='date', name='formattedDOD', value=(undefined === cartographer ? '' : cartographer.formattedDOD))
     button.btn.btn-primary(type='submit') Submit
 
   if errors

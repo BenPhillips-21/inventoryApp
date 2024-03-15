@@ -132,10 +132,88 @@ exports.cartographer_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display cartographer update form on GET.
 exports.cartographer_update_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: cartographer update GET");
+  const [cartographer] = await Promise.all([
+    Cartographer.findById(req.params.id).exec(),
+  ]);
+
+  if (cartographer === null) {
+    const err = new Error("Cartographer not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("cartographer_form", {
+    title: "Update Cartographer",
+    cartographer: cartographer,
+  });
 });
 
-// Handle cartographer update on POST.
-exports.cartographer_update_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: cartographer update POST");
-});
+exports.cartographer_update_post = [
+  body("first_name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("First name must be specified."),
+  body("family_name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Family name must be specified."),
+  body("portrait")
+    .trim()
+    .isLength({ min: 1 }),
+  body("nationality")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description")
+    .trim()
+    .isLength({ min: 15 })
+    .escape(),
+  body("date_of_birth", "Invalid date of birth")
+    .optional({ values: "falsy" })
+    .isISO8601()
+    .toDate(),
+  body("date_of_death", "Invalid date of death")
+    .optional({ values: "falsy" })
+    .isISO8601()
+    .toDate(),
+
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    let cartographer = {
+      first_name: req.body.first_name,
+      family_name: req.body.family_name,
+      portrait: req.body.portrait,
+      nationality: req.body.nationality,
+      description: req.body.description,
+      date_of_birth: req.body.date_of_birth,
+      date_of_death: req.body.date_of_death,
+    };
+
+    if (!errors.isEmpty()) {
+      res.render("cartographer_form", {
+        title: "Update Cartographer",
+        cartographer: cartographer,
+        errors: errors.array(),
+      });
+      return;
+    }
+
+    try {
+      let updatedCartographer = await Cartographer.findByIdAndUpdate(
+        req.params.id,
+        cartographer,
+        { new: true }
+      );
+
+      res.redirect(updatedCartographer.url);
+    } catch (err) {
+      console.error(err);
+      // Handle the error appropriately
+    }
+  }),
+];
