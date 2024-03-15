@@ -1,4 +1,6 @@
-Basic Express App that archives information about important maps and their cartographers.
+**Map World**
+
+Map World is a basic Express App that archives information about important maps and their cartographers. Users can performs all CRUD operations on maps, cartographers and map types. 
 
 Why maps? Because I like them :) 
 
