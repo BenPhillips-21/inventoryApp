@@ -221,20 +221,20 @@ exports.map_update_post = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("description", "description must not be empty").trim().isLength({ min: 1 }).escape(),
+  body("description", "description must not be empty").trim().isLength({ min: 1 }),
   body("maptype.*").escape(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
-    const map = new Map({
+    const map = {
       title: req.body.title,
       cartographer: req.body.cartographer,
       image: req.body.image,
       year_published: req.body.year_published,
       description: req.body.description,
       maptype: req.body.maptype,
-    });
+    }
 
     if (!errors.isEmpty()) {
       const [allCartographers, allMaptypes] = await Promise.all([

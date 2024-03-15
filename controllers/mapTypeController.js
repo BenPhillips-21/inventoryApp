@@ -121,8 +121,7 @@ exports.maptype_update_post = [
     .isLength({ min: 3 })
     .escape(),
   body("description", "Map description must be specified")
-    .trim()
-    .escape(),
+    .trim(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);

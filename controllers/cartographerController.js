@@ -62,14 +62,14 @@ exports.cartographer_create_post = [
     .trim()
     .isLength({ min: 15 })
     .escape(),
-  body("date_of_birth", "Invalid date of birth")
-    .optional({ values: "falsy" })
-    .isISO8601()
-    .toDate(),
-  body("date_of_death", "Invalid date of death")
-    .optional({ values: "falsy" })
-    .isISO8601()
-    .toDate(),
+  body('formattedDOB')
+      .optional({ nullable: true })  // Allow empty value
+      .isISO8601()  // Validate ISO 8601 format (YYYY-MM-DD)
+      .toDate(),  // Convert to Date object
+  body('formattedDOD')
+      .optional({ nullable: true })  // Allow empty value
+      .isISO8601()  // Validate ISO 8601 format (YYYY-MM-DD)
+      .toDate(),  // Convert to Date object
 
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
@@ -82,8 +82,8 @@ exports.cartographer_create_post = [
       portrait: req.body.portrait,
       nationality: req.body.nationality,
       description: req.body.description,
-      date_of_birth: req.body.date_of_birth,
-      date_of_death: req.body.date_of_death,
+      date_of_birth: req.body.formattedDOB,
+      date_of_death: req.body.formattedDOD,
     });
 
     if (!errors.isEmpty()) {
@@ -170,14 +170,14 @@ exports.cartographer_update_post = [
     .trim()
     .isLength({ min: 15 })
     .escape(),
-  body("date_of_birth", "Invalid date of birth")
-    .optional({ values: "falsy" })
-    .isISO8601()
-    .toDate(),
-  body("date_of_death", "Invalid date of death")
-    .optional({ values: "falsy" })
-    .isISO8601()
-    .toDate(),
+  body('formattedDOB')
+      .optional({ nullable: true })  // Allow empty value
+      .isISO8601()  // Validate ISO 8601 format (YYYY-MM-DD)
+      .toDate(),  // Convert to Date object
+  body('formattedDOB')
+      .optional({ nullable: true })  // Allow empty value
+      .isISO8601()  // Validate ISO 8601 format (YYYY-MM-DD)
+      .toDate(),  // Convert to Date object
 
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
@@ -190,8 +190,8 @@ exports.cartographer_update_post = [
       portrait: req.body.portrait,
       nationality: req.body.nationality,
       description: req.body.description,
-      date_of_birth: req.body.date_of_birth,
-      date_of_death: req.body.date_of_death,
+      date_of_birth: req.body.formattedDOB,
+      date_of_death: req.body.formattedDOD,
     };
 
     if (!errors.isEmpty()) {

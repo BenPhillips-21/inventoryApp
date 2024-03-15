@@ -12,8 +12,9 @@ var app = express();
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
+require('dotenv').config();
 mongoose.set("strictQuery", false);
-const mongoDB = "mongodb+srv://theCartographer:Lxne2WarvCzQq7fy@mapcluster.zouhfkl.mongodb.net/";
+const mongoDB = process.env.mongoDBConn;
 
 main().catch((err) => console.log(err));
 async function main() {

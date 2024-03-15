@@ -18,7 +18,7 @@ router.get("/map/create", map_controller.map_create_get);
 router.post("/map/create", map_controller.map_create_post);
 
 // GET request to delete map.
-router.get("/map/:id/delete", map_controller.map_delete_get);
+router.get("/map/:id/delete",  map_controller.map_delete_get);
 
 // POST request to delete map.
 router.post("/map/:id/delete", map_controller.map_delete_post);
